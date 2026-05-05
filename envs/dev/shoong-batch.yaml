@@ -1,0 +1,8 @@
+image:
+  repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-batch
+  tag: "latest"
+
+replicaCount: 1
+
+service:
+  enabled: false
