@@ -1,0 +1,8 @@
+image:
+  repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-notification
+  tag: "latest"
+
+replicaCount: 2
+
+service:
+  port: 3004
