@@ -1,6 +1,6 @@
 image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-notification
-  tag: "7005f8c43b38d5e2edb4ca843558d02d51ba3a05"
+  tag: "03a43d521958a25d8abfe2ad8dc73a1460a61793"
 
 replicaCount: 1
 
