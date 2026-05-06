@@ -1,6 +1,6 @@
 image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-batch
-  tag: "85745012b0823dfa602e1d9456bae02825ad8d82"
+  tag: "a3ec59a5424a859f98c9cb639842d982f33d09d5"
 
 replicaCount: 1
 
