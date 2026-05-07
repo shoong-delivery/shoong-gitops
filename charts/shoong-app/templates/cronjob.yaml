@@ -15,11 +15,15 @@ spec:
             - name: {{ .Release.Name }}
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
-              {{- if .Values.env }}
               envFrom:
+                - secretRef:
+                    name: shoong-config
+                - secretRef:
+                    name: shoong-db-secret
+{{- if .Values.env }}
                 - configMapRef:
                     name: {{ .Release.Name }}-config
-              {{- end }}
+{{- end }}
               resources:
                 requests:
                   cpu: {{ .Values.resources.requests.cpu }}

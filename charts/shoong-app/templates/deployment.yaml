@@ -23,11 +23,15 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
           {{- end }}
-          {{- if .Values.env }}
           envFrom:
+            - secretRef:
+                name: shoong-config
+            - secretRef:
+                name: shoong-db-secret
+{{- if .Values.env }}
             - configMapRef:
                 name: {{ .Release.Name }}-config
-          {{- end }}
+{{- end }}
           {{- if and .Values.probe.enabled .Values.service.enabled }}
           livenessProbe:
             httpGet:
