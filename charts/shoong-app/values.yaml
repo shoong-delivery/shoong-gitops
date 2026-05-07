@@ -10,6 +10,11 @@ service:
   type: ClusterIP
   port: 3000
 
+cronjob:
+  enabled: false
+
+env: {}
+
 resources:
   requests:
     cpu: "100m"

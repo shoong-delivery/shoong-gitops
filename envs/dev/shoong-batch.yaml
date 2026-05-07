@@ -6,3 +6,9 @@ replicaCount: 1
 
 service:
   enabled: false
+
+cronjob:
+  enabled: true
+
+env:
+  ORDER_URL: http://dev-shoong-order:3001
