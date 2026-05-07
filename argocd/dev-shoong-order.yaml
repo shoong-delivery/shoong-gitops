@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-shoong-order
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/shoong-delivery/shoong-gitops
+      targetRevision: HEAD
+      path: charts/shoong-app
+      helm:
+        valueFiles:
+          - $values/envs/dev/shoong-order.yaml
+    - repoURL: https://github.com/shoong-delivery/shoong-gitops
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
