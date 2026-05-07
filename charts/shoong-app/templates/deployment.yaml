@@ -23,6 +23,25 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
           {{- end }}
+          {{- if .Values.env }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+          {{- end }}
+          {{- if and .Values.probe.enabled .Values.service.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probe.path }}
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: {{ .Values.probe.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probe.liveness.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probe.path }}
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: {{ .Values.probe.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probe.readiness.periodSeconds }}
+          {{- end }}
           resources:
             requests:
               cpu: {{ .Values.resources.requests.cpu }}

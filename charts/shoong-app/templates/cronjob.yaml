@@ -16,11 +16,9 @@ spec:
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               {{- if .Values.env }}
-              env:
-                {{- range $key, $val := .Values.env }}
-                - name: {{ $key }}
-                  value: {{ $val | quote }}
-                {{- end }}
+              envFrom:
+                - configMapRef:
+                    name: {{ .Release.Name }}-config
               {{- end }}
               resources:
                 requests:

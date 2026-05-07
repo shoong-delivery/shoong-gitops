@@ -10,6 +10,16 @@ service:
   type: ClusterIP
   port: 3000
 
+probe:
+  enabled: true
+  path: /health
+  liveness:
+    initialDelaySeconds: 15
+    periodSeconds: 20
+  readiness:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
 cronjob:
   enabled: false
 
