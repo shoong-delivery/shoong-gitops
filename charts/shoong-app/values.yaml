@@ -25,6 +25,11 @@ cronjob:
 
 env: {}
 
+virtualService:
+  enabled: false
+  gateway: istio-system/shoong-gateway
+  prefix: /
+
 resources:
   requests:
     cpu: "100m"

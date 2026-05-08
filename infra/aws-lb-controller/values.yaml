@@ -1,0 +1,18 @@
+clusterName: shoong-dev-cluster
+region: us-east-1
+
+serviceAccount:
+  create: true
+  name: aws-load-balancer-controller
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::733181095558:role/shoong-dev-aws-lb-controller-role
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi

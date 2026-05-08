@@ -6,3 +6,7 @@ replicaCount: 1
 
 service:
   port: 3004
+
+virtualService:
+  enabled: true
+  prefix: /notify
