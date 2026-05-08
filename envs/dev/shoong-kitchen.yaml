@@ -1,6 +1,6 @@
 image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-kitchen
-  tag: "dev-923ac7123de4447def86f4a23fb632eb7a2cae28"
+  tag: "dev-525aae68db61ab4330f755418c6879f2d9063866"
 
 replicaCount: 1
 
