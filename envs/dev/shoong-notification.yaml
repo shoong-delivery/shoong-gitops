@@ -9,4 +9,5 @@ service:
 
 virtualService:
   enabled: true
-  prefix: /notify
+  prefix: /api/notifications
+  rewritePrefix: /

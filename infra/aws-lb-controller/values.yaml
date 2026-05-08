@@ -1,5 +1,6 @@
 clusterName: shoong-dev-cluster
 region: us-east-1
+vpcId: vpc-07d74d2d29f5e0902
 
 serviceAccount:
   create: true

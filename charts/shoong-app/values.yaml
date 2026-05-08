@@ -28,7 +28,7 @@ env: {}
 virtualService:
   enabled: false
   gateway: istio-system/shoong-gateway
-  prefix: /
+  prefix: /api
 
 resources:
   requests:

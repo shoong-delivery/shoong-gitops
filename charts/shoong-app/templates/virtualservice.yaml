@@ -12,6 +12,8 @@ spec:
     - match:
         - uri:
             prefix: {{ .Values.virtualService.prefix }}
+      rewrite:
+        uri: {{ .Values.virtualService.rewritePrefix | default "/" }}
       route:
         - destination:
             host: {{ .Release.Name }}

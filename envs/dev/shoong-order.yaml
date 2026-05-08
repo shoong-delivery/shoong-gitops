@@ -9,4 +9,5 @@ service:
 
 virtualService:
   enabled: true
-  prefix: /orders
+  prefix: /api/orders       # 외부에서 받는 경로
+  rewritePrefix: /          # 백엔드로 전달 시 /api/orders 제거
