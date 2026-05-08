@@ -6,7 +6,7 @@ image:
   pullPolicy: Always
 
 service:
-  enabled: true      
+  enabled: true
   type: ClusterIP
   port: 3000
 
@@ -25,11 +25,6 @@ cronjob:
 
 env: {}
 
-virtualService:
-  enabled: false
-  gateway: istio-system/shoong-gateway
-  prefix: /api
-
 resources:
   requests:
     cpu: "100m"
@@ -37,3 +32,8 @@ resources:
   limits:
     cpu: "200m"
     memory: "128Mi"
+
+virtualService:
+  enabled: false
+  gateway: istio-system/shoong-gateway
+  prefix: /api
