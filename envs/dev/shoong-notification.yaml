@@ -9,4 +9,4 @@ service:
 
 virtualService:
   enabled: true
-  prefix: /api/notifications
+  prefix: /api/notifications/
