@@ -6,3 +6,7 @@ replicaCount: 2
 
 service:
   port: 3004
+
+virtualService:
+  enabled: true
+  prefix: /api/notifications/

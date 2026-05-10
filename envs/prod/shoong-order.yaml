@@ -6,3 +6,7 @@ replicaCount: 2
 
 service:
   port: 3001
+
+virtualService:
+  enabled: true
+  prefix: /api/orders/
