@@ -1,12 +1,8 @@
-clusterName: shoong-dev-cluster
 region: us-east-1
-vpcId: vpc-07d74d2d29f5e0902
 
 serviceAccount:
   create: true
   name: aws-load-balancer-controller
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::733181095558:role/shoong-dev-aws-lb-controller-role
 
 replicaCount: 1
 

@@ -1,0 +1,6 @@
+clusterName: shoong-prod-cluster
+vpcId: ""  # TODO: Terraform apply 후 채울 것
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::733181095558:role/shoong-prod-aws-lb-controller-role

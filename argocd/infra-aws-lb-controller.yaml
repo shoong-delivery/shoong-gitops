@@ -14,6 +14,7 @@ spec:
       helm:
         valueFiles:
           - $values/infra/aws-lb-controller/values.yaml
+          - $values/infra/aws-lb-controller/values-dev.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
       targetRevision: HEAD
       ref: values

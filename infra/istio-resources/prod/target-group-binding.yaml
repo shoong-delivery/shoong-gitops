@@ -1,0 +1,11 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: istio-ingressgateway-tgb
+  namespace: istio-system
+spec:
+  serviceRef:
+    name: istio-ingressgateway
+    port: 80
+  targetGroupARN: ""  # TODO: Terraform apply 후 채울 것
+  targetType: ip

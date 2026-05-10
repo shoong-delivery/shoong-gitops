@@ -1,0 +1,6 @@
+clusterName: shoong-dev-cluster
+vpcId: vpc-07d74d2d29f5e0902
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::733181095558:role/shoong-dev-aws-lb-controller-role

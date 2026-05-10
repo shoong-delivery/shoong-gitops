@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: dev-shoong-delivery
+  name: prod-shoong-kitchen
   namespace: argocd
 spec:
   project: default
@@ -11,7 +11,7 @@ spec:
       path: charts/shoong-app
       helm:
         valueFiles:
-          - $values/envs/dev/shoong-delivery.yaml
+          - $values/envs/prod/shoong-kitchen.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
       targetRevision: HEAD
       ref: values

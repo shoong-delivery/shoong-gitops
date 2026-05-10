@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: infra-istio-resources
+  name: infra-eso-dev
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   source:
     repoURL: https://github.com/shoong-delivery/shoong-gitops
     targetRevision: HEAD
-    path: infra/istio-resources/dev
+    path: eso/dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: istio-system
+    namespace: shoong
   syncPolicy:
     automated:
       prune: true
