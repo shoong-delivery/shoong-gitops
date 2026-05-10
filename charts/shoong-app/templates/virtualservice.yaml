@@ -12,6 +12,10 @@ spec:
     - match:
         - uri:
             prefix: {{ .Values.virtualService.prefix }}
+        {{- if .Values.virtualService.exactMatch }}
+        - uri:
+            exact: {{ .Values.virtualService.exactMatch }}
+        {{- end }}
       rewrite:
         uri: /
       route:
