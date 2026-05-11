@@ -6,3 +6,7 @@ replicaCount: 1
 
 service:
   port: 3002
+
+env:
+  OTEL_SERVICE_NAME: shoong-kitchen
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://infra-otel-collector.monitoring.svc:4317

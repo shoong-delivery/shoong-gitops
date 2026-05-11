@@ -10,3 +10,14 @@ alertmanager:
 grafana:
   persistence:
     enabled: false
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      url: http://infra-loki-gateway.monitoring.svc:80
+      access: proxy
+      isDefault: false
+    - name: Tempo
+      type: tempo
+      url: http://infra-tempo.monitoring.svc:3100
+      access: proxy
+      isDefault: false

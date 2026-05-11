@@ -11,3 +11,7 @@ virtualService:
   enabled: true
   prefix: /api/notifications/
   exactMatch: /api/notifications
+
+env:
+  OTEL_SERVICE_NAME: shoong-notification
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://infra-otel-collector.monitoring.svc:4317

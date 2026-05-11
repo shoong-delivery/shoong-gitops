@@ -10,3 +10,7 @@ service:
 virtualService:
   enabled: true
   prefix: /api/orders/
+
+env:
+  OTEL_SERVICE_NAME: shoong-order
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://infra-otel-collector.monitoring.svc:4317
