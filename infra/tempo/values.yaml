@@ -1,0 +1,30 @@
+tempo:
+  storage:
+    trace:
+      backend: local
+      local:
+        path: /var/tempo/traces
+
+  # OTLP gRPC/HTTP 수신 설정
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: "0.0.0.0:4317"
+        http:
+          endpoint: "0.0.0.0:4318"
+
+  # 트레이스 보존 기간
+  retention: 72h
+
+  # 쿼리 설정
+  query_frontend:
+    search:
+      default_result_limit: 20
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+service:
+  type: ClusterIP

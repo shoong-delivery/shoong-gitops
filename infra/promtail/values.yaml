@@ -1,0 +1,34 @@
+config:
+  # Loki gateway로 로그 전송
+  clients:
+    - url: http://infra-loki-gateway.monitoring.svc/loki/api/v1/push
+
+  snippets:
+    # 쿠버네티스 파드 로그 수집 + 메타데이터 레이블 추가
+    pipelineStages:
+      - docker: {}
+
+    # 감시할 로그 경로 (DaemonSet으로 노드 전체 커버)
+    scrapeConfigs: |
+      - job_name: kubernetes-pods
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_node_name]
+            target_label: __host__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            target_label: container
+          - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_pod_name]
+            target_label: job
+            separator: /
+            replacement: $1
+          - source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
+            target_label: __path__
+            separator: /
+            replacement: /var/log/pods/*$1/*.log

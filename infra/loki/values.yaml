@@ -1,0 +1,53 @@
+deploymentMode: SingleBinary
+
+loki:
+  commonConfig:
+    replication_factor: 1
+  auth_enabled: false
+  storage:
+    type: filesystem
+  schemaConfig:
+    configs:
+      - from: "2024-01-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+
+singleBinary:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 10Gi
+
+# SingleBinary 모드에서 분산 컴포넌트 비활성화
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+queryFrontend:
+  replicas: 0
+queryScheduler:
+  replicas: 0
+distributor:
+  replicas: 0
+compactor:
+  replicas: 0
+indexGateway:
+  replicas: 0
+
+gateway:
+  enabled: true
+
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
