@@ -7,5 +7,5 @@ spec:
   serviceRef:
     name: istio-ingressgateway
     port: 80
-  targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:733181095558:targetgroup/shoong-dev-tg/ae9fdc3a3e1ab88b
+  targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:733181095558:targetgroup/shoong-dev-tg/c74289434d3c0beb
   targetType: ip

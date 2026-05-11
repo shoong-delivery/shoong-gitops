@@ -1,0 +1,12 @@
+prometheus:
+  prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    retention: 7d
+
+alertmanager:
+  enabled: false
+
+grafana:
+  persistence:
+    enabled: false
