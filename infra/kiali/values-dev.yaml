@@ -3,10 +3,10 @@ auth:
 
 external_services:
   prometheus:
-    url: "http://kube-prometheus-stack-prometheus.monitoring.svc:9090"
+    url: "http://infra-monitoring-kube-prom-prometheus.monitoring.svc:9090"
   grafana:
     enabled: true
-    in_cluster_url: "http://kube-prometheus-stack-grafana.monitoring.svc"
+    in_cluster_url: "http://infra-monitoring-grafana.monitoring.svc"
 
 deployment:
   resources:
