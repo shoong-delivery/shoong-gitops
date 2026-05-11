@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: vs-grafana
+  namespace: istio-system
+spec:
+  hosts:
+    - grafana.internal.shoong.cloud
+  gateways:
+    - istio-system/shoong-gateway
+  http:
+    - route:
+        - destination:
+            host: infra-monitoring-grafana.monitoring.svc.cluster.local
+            port:
+              number: 80
