@@ -5,7 +5,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-    - grafana.internal.shoong.cloud
+    - grafana.internal.dev.shoong.cloud
   gateways:
     - istio-system/shoong-gateway
   http:

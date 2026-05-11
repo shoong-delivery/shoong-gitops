@@ -5,7 +5,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-    - argocd.internal.shoong.cloud
+    - argocd.internal.dev.shoong.cloud
   gateways:
     - istio-system/shoong-gateway
   http:

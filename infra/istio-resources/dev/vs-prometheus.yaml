@@ -5,7 +5,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-    - prometheus.internal.shoong.cloud
+    - prometheus.internal.dev.shoong.cloud
   gateways:
     - istio-system/shoong-gateway
   http:

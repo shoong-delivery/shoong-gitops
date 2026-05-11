@@ -5,7 +5,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-    - kiali.internal.shoong.cloud
+    - kiali.internal.dev.shoong.cloud
   gateways:
     - istio-system/shoong-gateway
   http:
