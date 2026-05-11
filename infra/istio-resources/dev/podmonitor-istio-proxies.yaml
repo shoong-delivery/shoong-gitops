@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: istio-proxies
+  namespace: monitoring
+spec:
+  selector:
+    matchExpressions:
+      - key: istio-prometheus-ignore
+        operator: DoesNotExist
+  namespaceSelector:
+    any: true
+  jobLabel: envoy-stats
+  podMetricsEndpoints:
+    - path: /stats/prometheus
+      targetPort: 15090
+      interval: 15s
+      relabelings:
+        - action: keep
+          sourceLabels: [__meta_kubernetes_pod_container_name]
+          regex: istio-proxy
