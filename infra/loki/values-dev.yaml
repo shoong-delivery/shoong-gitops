@@ -6,6 +6,8 @@ singleBinary:
     limits:
       cpu: 300m
       memory: 512Mi
+  persistence:
+    storageClassName: gp2
 
 gateway:
   resources:
