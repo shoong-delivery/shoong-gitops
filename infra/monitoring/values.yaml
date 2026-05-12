@@ -18,6 +18,6 @@ grafana:
       isDefault: false
     - name: Tempo
       type: tempo
-      url: http://infra-tempo.monitoring.svc:3100
+      url: http://infra-tempo.monitoring.svc:3200
       access: proxy
       isDefault: false
