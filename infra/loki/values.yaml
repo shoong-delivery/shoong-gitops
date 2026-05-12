@@ -20,7 +20,7 @@ singleBinary:
   replicas: 1
   persistence:
     enabled: true
-    size: 10Gi
+    size: 2Gi
 
 # SingleBinary 모드에서 분산 컴포넌트 비활성화
 backend:
