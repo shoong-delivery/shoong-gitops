@@ -9,4 +9,7 @@ service:
 
 env:
   OTEL_SERVICE_NAME: shoong-delivery
-  OTEL_EXPORTER_OTLP_ENDPOINT: http://infra-otel-collector.monitoring.svc:4317
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://infra-otel-collector-opentelemetry-collector.monitoring.svc:4317
+  OTEL_TRACES_EXPORTER: otlp
+  OTEL_METRICS_EXPORTER: none
+  OTEL_LOGS_EXPORTER: none
