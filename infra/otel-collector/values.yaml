@@ -1,6 +1,9 @@
 # Deployment 모드: 앱에서 OTLP를 받아 Tempo로 전달하는 중앙 수집기
 mode: deployment
 
+image:
+  repository: otel/opentelemetry-collector-k8s
+
 config:
   receivers:
     otlp:
