@@ -1,3 +1,8 @@
+defaultRules:
+  disabled:
+    KubeControllerManagerDown: true
+    KubeSchedulerDown: true
+
 prometheus:
   prometheusSpec:
     podMonitorSelectorNilUsesHelmValues: false

@@ -14,11 +14,16 @@ spec:
     repeatInterval: 4h
     routes:
       - matchers:
+          - name: alertname
+            value: Watchdog
+        receiver: null-receiver
+      - matchers:
           - name: severity
             value: critical
         receiver: slack-critical
         continue: false
   receivers:
+    - name: null-receiver
     - name: slack-observability
       slackConfigs:
         - apiURL:
