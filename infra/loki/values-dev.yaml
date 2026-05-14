@@ -7,7 +7,7 @@ singleBinary:
       cpu: 300m
       memory: 512Mi
   persistence:
-    storageClass: gp2
+    storageClass: gp2-csi
 
 gateway:
   resources:

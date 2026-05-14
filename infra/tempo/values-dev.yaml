@@ -8,4 +8,4 @@ tempo:
       memory: 512Mi
 
 persistence:
-  storageClassName: gp2
+  storageClassName: gp2-csi
