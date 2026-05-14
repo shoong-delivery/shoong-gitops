@@ -1,0 +1,59 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: shoong-alertmanager-config
+  namespace: monitoring
+  labels:
+    alertmanagerConfig: shoong
+spec:
+  route:
+    receiver: slack-observability
+    groupBy: ['alertname', 'namespace']
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 4h
+    routes:
+      - matchers:
+          - name: severity
+            value: critical
+        receiver: slack-critical
+        continue: false
+  receivers:
+    - name: slack-observability
+      slackConfigs:
+        - apiURL:
+            name: alertmanager-slack-webhook
+            key: observability
+          channel: '#alerts-observability'
+          sendResolved: true
+          title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}'
+          text: |-
+            {{ range .Alerts }}
+            *심각도:* `{{ .Labels.severity }}`  |  *네임스페이스:* `{{ .Labels.namespace }}`
+            {{- if .Labels.pod }}
+            *Pod:* `{{ .Labels.pod }}`
+            {{- end }}
+            *요약:* {{ .Annotations.summary }}
+            {{- if .Annotations.description }}
+            *설명:* {{ .Annotations.description }}
+            {{- end }}
+            {{ end }}
+    - name: slack-critical
+      slackConfigs:
+        - apiURL:
+            name: alertmanager-slack-webhook
+            key: critical
+          channel: '#alerts-critical'
+          sendResolved: true
+          title: '🚨 [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}'
+          text: |-
+            {{ range .Alerts }}
+            *심각도:* `{{ .Labels.severity }}`  |  *네임스페이스:* `{{ .Labels.namespace }}`
+            {{- if .Labels.pod }}
+            *Pod:* `{{ .Labels.pod }}`
+            {{- end }}
+            *요약:* {{ .Annotations.summary }}
+            {{- if .Annotations.description }}
+            *설명:* {{ .Annotations.description }}
+            {{- end }}
+            {{ end }}
