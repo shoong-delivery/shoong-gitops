@@ -5,15 +5,15 @@ metadata:
   namespace: argocd
 data:
   # ── 서비스 정의 ──────────────────────────────────────────────────────────────
-  # argocd-notifications-secret의 webhook.slack-deploy-url 키를 참조
+  # argocd-notifications-secret의 slack-deploy-url 키를 참조
   service.webhook.slack-deploy: |
-    url: $webhook.slack-deploy-url
+    url: $slack-deploy-url
     headers:
       - name: Content-Type
         value: application/json
 
   service.webhook.slack-critical: |
-    url: $webhook.slack-critical-url
+    url: $slack-critical-url
     headers:
       - name: Content-Type
         value: application/json
@@ -30,7 +30,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "✅ *Sync 완료* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | truncate 7 \"\"}}`"
+                  "text": "✅ *Sync 완료* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | trunc 7}}`"
                 }
               }
             ]
@@ -47,7 +47,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "❌ *Sync 실패* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | truncate 7 \"\"}}`\n*메시지:* {{.app.status.operationState.message}}"
+                  "text": "❌ *Sync 실패* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | trunc 7}}`\n*메시지:* {{.app.status.operationState.message}}"
                 }
               }
             ]
@@ -81,7 +81,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "↩️ *롤백 발생* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | truncate 7 \"\"}}`"
+                  "text": "↩️ *롤백 발생* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | trunc 7}}`"
                 }
               }
             ]
