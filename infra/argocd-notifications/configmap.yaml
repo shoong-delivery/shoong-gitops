@@ -30,7 +30,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "✅ *Sync 완료* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | trunc 7}}`"
+                  "text": "✅ *Sync 완료* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
                 }
               }
             ]
@@ -47,7 +47,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "❌ *Sync 실패* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | trunc 7}}`\n*메시지:* {{.app.status.operationState.message}}"
+                  "text": "❌ *Sync 실패* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`\n*메시지:* {{.app.status.operationState.message}}"
                 }
               }
             ]
@@ -81,7 +81,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "↩️ *롤백 발생* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | trunc 7}}`"
+                  "text": "↩️ *롤백 발생* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
                 }
               }
             ]
