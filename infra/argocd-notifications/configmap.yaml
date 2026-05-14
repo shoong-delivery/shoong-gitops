@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+  # ── 서비스 정의 ──────────────────────────────────────────────────────────────
+  # argocd-notifications-secret의 webhook.slack-deploy-url 키를 참조
+  service.webhook.slack-deploy: |
+    url: $webhook.slack-deploy-url
+    headers:
+      - name: Content-Type
+        value: application/json
+
+  service.webhook.slack-critical: |
+    url: $webhook.slack-critical-url
+    headers:
+      - name: Content-Type
+        value: application/json
+
+  # ── 템플릿 정의 ──────────────────────────────────────────────────────────────
+  template.app-sync-succeeded: |
+    webhook:
+      slack-deploy:
+        method: POST
+        body: |
+          {
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "✅ *Sync 완료* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | truncate 7 \"\"}}`"
+                }
+              }
+            ]
+          }
+
+  template.app-sync-failed: |
+    webhook:
+      slack-deploy:
+        method: POST
+        body: |
+          {
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "❌ *Sync 실패* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | truncate 7 \"\"}}`\n*메시지:* {{.app.status.operationState.message}}"
+                }
+              }
+            ]
+          }
+
+  template.app-health-degraded: |
+    webhook:
+      slack-critical:
+        method: POST
+        body: |
+          {
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "⚠️ *Health Degraded* — `{{.app.metadata.name}}`\n*환경:* dev  |  *상태:* {{.app.status.health.status}}\n*메시지:* {{.app.status.health.message}}"
+                }
+              }
+            ]
+          }
+
+  template.app-rollback: |
+    webhook:
+      slack-critical:
+        method: POST
+        body: |
+          {
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "↩️ *롤백 발생* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | truncate 7 \"\"}}`"
+                }
+              }
+            ]
+          }
+
+  # ── 트리거 정의 ──────────────────────────────────────────────────────────────
+  trigger.on-sync-succeeded: |
+    - when: app.status.operationState.phase in ['Succeeded']
+      send: [app-sync-succeeded]
+
+  trigger.on-sync-failed: |
+    - when: app.status.operationState.phase in ['Error', 'Failed']
+      send: [app-sync-failed]
+
+  trigger.on-health-degraded: |
+    - when: app.status.health.status == 'Degraded'
+      send: [app-health-degraded]
+
+  trigger.on-rollback: |
+    - when: app.status.operationState.operation.sync.rollback
+      send: [app-rollback]
+
+  # ── 전역 구독 (모든 Application에 기본 적용) ──────────────────────────────────
+  subscriptions: |
+    - recipients:
+        - slack-deploy
+      triggers:
+        - on-sync-succeeded
+        - on-sync-failed
+    - recipients:
+        - slack-critical
+      triggers:
+        - on-health-degraded
+        - on-rollback

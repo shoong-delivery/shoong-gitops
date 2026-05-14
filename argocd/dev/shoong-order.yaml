@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: dev-shoong-order
   namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack-deploy: ""
+    notifications.argoproj.io/subscribe.on-sync-failed.slack-deploy: ""
+    notifications.argoproj.io/subscribe.on-health-degraded.slack-critical: ""
 spec:
   project: default
   sources:
