@@ -1,6 +1,6 @@
 image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-delivery
-  tag: "dev-7a3abbcd23a34674bdb14c212c3b95c2ab5ffa62"
+  tag: "dev-6c41f3e88a77c5b3bc17743f801d448fb8d21d77"
 
 replicaCount: 1
 
