@@ -1,4 +1,4 @@
-{{- if not .Values.cronjob.enabled }}
+{{- if eq (len .Values.cronjobs) 0 }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

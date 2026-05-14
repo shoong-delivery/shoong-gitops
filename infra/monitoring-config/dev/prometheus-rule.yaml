@@ -1,0 +1,115 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: shoong-app-rules
+  namespace: monitoring
+  labels:
+    app: shoong
+    prometheus: kube-prometheus
+    role: alert-rules
+spec:
+  groups:
+    # ───────────────────────────────────────────────────────
+    # 1. 워크플로우 적체 — 배치가 도입돼서 각 상태에 시간 상한이 생김
+    #    상한 + 여유분을 넘어 머물면 체인 호출 실패 or 배치 미동작
+    # ───────────────────────────────────────────────────────
+    - name: shoong.app.workflow
+      rules:
+        - alert: ShoongOrderPendingStuck
+          # 5분 동안 PENDING 주문이 한 번도 0이 된 적 없음
+          # = 정상 흐름이면 PENDING은 초 단위로 COOKING으로 넘어감
+          expr: min_over_time(order_status_count{status="PENDING"}[5m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+            service: order-api
+          annotations:
+            summary: "주문이 PENDING으로 멈춤"
+            description: "5분간 PENDING 주문 수가 0이 된 적 없음 — order→kitchen /start 호출이 실패하고 있을 가능성"
+
+        - alert: ShoongOrderCookingStuck
+          # COOKING 임계값 3분 + 배치 주기 1분 + 여유 6분 = 10분
+          expr: min_over_time(order_status_count{status="COOKING"}[10m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+            service: kitchen-api
+          annotations:
+            summary: "주문이 COOKING으로 멈춤"
+            description: "10분간 COOKING 주문 수가 0이 된 적 없음 — 배치 미동작 또는 kitchen /complete 실패"
+
+        - alert: ShoongOrderDeliveringStuck
+          # DELIVERING 임계값 5분 + 배치 주기 1분 + 여유 9분 = 15분
+          expr: min_over_time(order_status_count{status="DELIVERING"}[15m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+            service: delivery-api
+          annotations:
+            summary: "주문이 DELIVERING으로 멈춤"
+            description: "15분간 DELIVERING 주문 수가 0이 된 적 없음 — 배치 미동작 또는 delivery /complete 실패"
+
+        - alert: ShoongOrphanCookedOrder
+          # kitchen /complete → delivery /assign 체인 실패 시그널
+          # happy path에선 거의 즉시 DELIVERING으로 전이되므로 2분 이상 지속되면 이상
+          expr: order_orphan_cooked_count > 0
+          for: 2m
+          labels:
+            severity: critical
+            service: kitchen-api
+          annotations:
+            summary: "COOKED 상태로 배달 배차 안 된 주문 존재"
+            description: "kitchen /complete의 delivery /assign 체이닝 호출이 실패해 주문이 고립됨 — 수동 개입 필요"
+
+    # ───────────────────────────────────────────────────────
+    # 2. 에러율 — 비즈니스 이벤트 실패 추세
+    # ───────────────────────────────────────────────────────
+    - name: shoong.app.errors
+      rules:
+        - alert: ShoongOrderCreateFailureSpike
+          # 5분간 분당 1건 이상 실패 (= rate 0.0167)
+          expr: rate(order_create_total{result="fail"}[5m]) > 0.0167
+          for: 5m
+          labels:
+            severity: critical
+            service: order-api
+          annotations:
+            summary: "주문 생성 실패율 급증"
+            description: "최근 5분간 분당 1건 이상 주문 생성 실패 — 수익에 직접 영향"
+
+        - alert: ShoongNotificationFailureSpike
+          expr: rate(notification_create_total{result="fail"}[5m]) > 0.0167
+          for: 5m
+          labels:
+            severity: warning
+            service: notification-api
+          annotations:
+            summary: "알림 발송 실패율 급증"
+            description: "최근 5분간 분당 1건 이상 알림 생성 실패 — UX 저하 신호 (비즈니스 흐름은 진행됨)"
+
+    # ───────────────────────────────────────────────────────
+    # 3. 성능 — 단계별 소요시간 분포
+    # ───────────────────────────────────────────────────────
+    - name: shoong.app.performance
+      rules:
+        - alert: ShoongCookDurationHigh
+          # P95가 10분 초과 — 임계값 3분 대비 3배 이상
+          expr: histogram_quantile(0.95, sum(rate(cook_duration_seconds_bucket[10m])) by (le)) > 600
+          for: 10m
+          labels:
+            severity: warning
+            service: kitchen-api
+          annotations:
+            summary: "조리 시간 P95 비정상"
+            description: "P95 조리 시간이 10분 초과 — 배치 지연 또는 DB 응답 지연 가능성"
+
+        - alert: ShoongDeliveryDurationHigh
+          # P95가 30분 초과 — 임계값 5분 대비 6배 이상
+          expr: histogram_quantile(0.95, sum(rate(delivery_duration_seconds_bucket[10m])) by (le)) > 1800
+          for: 10m
+          labels:
+            severity: warning
+            service: delivery-api
+          annotations:
+            summary: "배달 시간 P95 비정상"
+            description: "P95 배달 시간이 30분 초과 — 배치 지연 또는 DB 응답 지연 가능성"

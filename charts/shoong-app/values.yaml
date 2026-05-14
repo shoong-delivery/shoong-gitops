@@ -20,8 +20,17 @@ probe:
     initialDelaySeconds: 5
     periodSeconds: 10
 
-cronjob:
-  enabled: false
+# 다중 CronJob 지원 — batch 레포에서 단일 이미지로 여러 워크플로우 실행
+# 예시 항목:
+#   - name: cleanup
+#     schedule: "0 1 * * *"
+#     args: ["cleanup"]
+cronjobs: []
+
+serviceMonitor:
+  enabled: true
+  path: /metrics
+  interval: 30s
 
 env: {}
 

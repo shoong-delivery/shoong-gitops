@@ -1,35 +1,48 @@
-{{- if .Values.cronjob.enabled }}
+{{- range .Values.cronjobs }}
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ $.Release.Name }}-{{ .name }}
   labels:
-    app: {{ .Release.Name }}
+    app: {{ $.Release.Name }}
+    cronjob: {{ .name }}
 spec:
-  schedule: "0 1 * * 1"
+  schedule: {{ .schedule | quote }}
+  concurrencyPolicy: {{ .concurrencyPolicy | default "Forbid" }}
+  successfulJobsHistoryLimit: {{ .successfulJobsHistoryLimit | default 3 }}
+  failedJobsHistoryLimit: {{ .failedJobsHistoryLimit | default 3 }}
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app: {{ $.Release.Name }}
+            cronjob: {{ .name }}
         spec:
           containers:
-            - name: {{ .Release.Name }}
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
+            - name: {{ .name }}
+              image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+              imagePullPolicy: {{ $.Values.image.pullPolicy }}
+              {{- with .args }}
+              args:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
               envFrom:
                 - secretRef:
                     name: shoong-config
                 - secretRef:
                     name: shoong-db-secret
-{{- if .Values.env }}
+              {{- if $.Values.env }}
                 - configMapRef:
-                    name: {{ .Release.Name }}-config
-{{- end }}
+                    name: {{ $.Release.Name }}-config
+              {{- end }}
               resources:
                 requests:
-                  cpu: {{ .Values.resources.requests.cpu }}
-                  memory: {{ .Values.resources.requests.memory }}
+                  cpu: {{ $.Values.resources.requests.cpu }}
+                  memory: {{ $.Values.resources.requests.memory }}
                 limits:
-                  cpu: {{ .Values.resources.limits.cpu }}
-                  memory: {{ .Values.resources.limits.memory }}
+                  cpu: {{ $.Values.resources.limits.cpu }}
+                  memory: {{ $.Values.resources.limits.memory }}
           restartPolicy: OnFailure
 {{- end }}

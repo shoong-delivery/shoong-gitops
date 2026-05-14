@@ -7,8 +7,23 @@ replicaCount: 1
 service:
   enabled: false
 
-cronjob:
-  enabled: true
+# 단일 이미지로 3개 CronJob 운영
+# - cleanup: 전통적 batch (7일 이상 주문 삭제)
+# - workflow 2개: 상태 머신 자동 진행 (실제 주방/라이더 시뮬레이션)
+cronjobs:
+  - name: cleanup
+    schedule: "0 1 * * *"
+    args: ["cleanup"]
+  - name: auto-complete-cooking
+    schedule: "*/1 * * * *"
+    args: ["auto-complete-cooking"]
+  - name: auto-complete-delivery
+    schedule: "*/1 * * * *"
+    args: ["auto-complete-delivery"]
 
 env:
   ORDER_URL: http://dev-shoong-order:3001
+  KITCHEN_URL: http://dev-shoong-kitchen:3002
+  DELIVERY_URL: http://dev-shoong-delivery:3003
+  COOKING_TIMEOUT_MINUTES: "3"
+  DELIVERY_TIMEOUT_MINUTES: "5"
