@@ -51,7 +51,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "❌ *ArgoCD dev Sync 실패* — `{{.app.metadata.name}}` | *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`\n*메시지:* {{.app.status.operationState.message}}"
+                  "text": "❌*ArgoCD dev Sync 실패* — `{{.app.metadata.name}}` | *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`\n*메시지:* {{.app.status.operationState.message}}"
                 }
               },
               {
@@ -77,7 +77,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "⚠️ *ArgoCd dev Health Degraded* — `{{.app.metadata.name}}` | *상태:* {{.app.status.health.status}}{{range $c := .app.status.conditions}}\n*Condition:* {{$c.type}} — {{$c.message}}{{end}}"
+                  "text": "⚠️*ArgoCd dev Health Degraded* — `{{.app.metadata.name}}` | *상태:* {{.app.status.health.status}}{{range $c := .app.status.conditions}}\n*Condition:* {{$c.type}} — {{$c.message}}{{end}}"
                 }
               },
               {
