@@ -4,6 +4,10 @@ metadata:
   name: argocd-notifications-cm
   namespace: argocd
 data:
+  # ── 컨텍스트 ────────────────────────────────────────────────────────────────
+  context: |
+    argocdUrl: https://argocd.internal.dev.shoong.cloud
+
   # ── 서비스 정의 ──────────────────────────────────────────────────────────────
   # argocd-notifications-secret의 slack-deploy-url 키를 참조
   service.webhook.slack-deploy: |
@@ -32,6 +36,15 @@ data:
                   "type": "mrkdwn",
                   "text": "✅ *Sync 완료* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
                 }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "🛰 *ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 보기>"
+                  }
+                ]
               }
             ]
           }
@@ -49,6 +62,15 @@ data:
                   "type": "mrkdwn",
                   "text": "❌ *Sync 실패* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`\n*메시지:* {{.app.status.operationState.message}}"
                 }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "🛰 *ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 보기>"
+                  }
+                ]
               }
             ]
           }
@@ -64,8 +86,17 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "⚠️ *Health Degraded* — `{{.app.metadata.name}}`\n*환경:* dev  |  *상태:* {{.app.status.health.status}}\n*메시지:* {{.app.status.health.message}}"
+                  "text": "⚠️ *Health Degraded* — `{{.app.metadata.name}}`\n*환경:* dev  |  *상태:* {{.app.status.health.status}}{{range $c := .app.status.conditions}}\n*Condition:* {{$c.type}} — {{$c.message}}{{end}}"
                 }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "🛰 *ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 보기>"
+                  }
+                ]
               }
             ]
           }
@@ -83,6 +114,15 @@ data:
                   "type": "mrkdwn",
                   "text": "↩️ *롤백 발생* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
                 }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "🛰 *ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 보기>"
+                  }
+                ]
               }
             ]
           }
