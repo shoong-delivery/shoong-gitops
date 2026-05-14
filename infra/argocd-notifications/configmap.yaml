@@ -36,15 +36,6 @@ data:
                   "type": "mrkdwn",
                   "text": "*ArgoCD dev Sync 완료* — `{{.app.metadata.name}}` | *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
                 }
-              },
-              {
-                "type": "context",
-                "elements": [
-                  {
-                    "type": "mrkdwn",
-                    "text": "*ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 접속>"
-                  }
-                ]
               }
             ]
           }
