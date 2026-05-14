@@ -20,6 +20,15 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[]?.failurePolicy
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[]?.failurePolicy
   syncPolicy:
     automated:
       prune: true
