@@ -34,7 +34,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "✅ *Sync 완료* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
+                  "text": "✅ *Sync 완료* — `{{.app.metadata.name}}` | *환경:* dev | *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
                 }
               },
               {
@@ -42,7 +42,7 @@ data:
                 "elements": [
                   {
                     "type": "mrkdwn",
-                    "text": "🛰 *ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 보기>"
+                    "text": "*ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 접속>"
                   }
                 ]
               }
@@ -60,7 +60,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "❌ *Sync 실패* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`\n*메시지:* {{.app.status.operationState.message}}"
+                  "text": "❌ *Sync 실패* — `{{.app.metadata.name}}` | *환경:* dev | *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`\n*메시지:* {{.app.status.operationState.message}}"
                 }
               },
               {
@@ -68,7 +68,7 @@ data:
                 "elements": [
                   {
                     "type": "mrkdwn",
-                    "text": "🛰 *ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 보기>"
+                    "text": "*ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 접속>"
                   }
                 ]
               }
@@ -86,7 +86,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "⚠️ *Health Degraded* — `{{.app.metadata.name}}`\n*환경:* dev  |  *상태:* {{.app.status.health.status}}{{range $c := .app.status.conditions}}\n*Condition:* {{$c.type}} — {{$c.message}}{{end}}"
+                  "text": "⚠️ *Health Degraded* — `{{.app.metadata.name}}` | *환경:* dev | *상태:* {{.app.status.health.status}}{{range $c := .app.status.conditions}}\n*Condition:* {{$c.type}} — {{$c.message}}{{end}}"
                 }
               },
               {
@@ -94,7 +94,7 @@ data:
                 "elements": [
                   {
                     "type": "mrkdwn",
-                    "text": "🛰 *ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 보기>"
+                    "text": "*ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 접속>"
                   }
                 ]
               }
@@ -112,7 +112,7 @@ data:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "↩️ *롤백 발생* — `{{.app.metadata.name}}`\n*환경:* dev  |  *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
+                  "text": "↩️ *롤백 발생* — `{{.app.metadata.name}}` | *환경:* dev | *리비전:* `{{.app.status.sync.revision | default "N/A" | trunc 7}}`"
                 }
               },
               {
@@ -120,7 +120,7 @@ data:
                 "elements": [
                   {
                     "type": "mrkdwn",
-                    "text": "🛰 *ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 보기>"
+                    "text": "*ArgoCD* | <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}|앱 접속>"
                   }
                 ]
               }
