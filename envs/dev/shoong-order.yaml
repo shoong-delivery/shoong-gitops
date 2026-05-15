@@ -1,6 +1,6 @@
 image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-order
-  tag: "dev-37ce1af9945374d1ed8e8d093088f3999bd785b3"
+  tag: "dev-23f7c8356c733f6c94ec9fafc7e85bb1be9c78e8"
 
 replicaCount: 1
 
