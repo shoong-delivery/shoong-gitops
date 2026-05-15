@@ -11,6 +11,8 @@ config:
       - cri: {}
 
     # 감시할 로그 경로 (DaemonSet으로 노드 전체 커버)
+    # 라벨은 최소화 — 카디널리티 폭발과 Loki stream label limit(기본 15) 초과 방지.
+    # `app` 라벨만 명시적으로 가져오고, 나머지 메타데이터는 본문(JSON)에서 LogQL로 풀어 씀.
     scrapeConfigs: |
       - job_name: kubernetes-pods
         kubernetes_sd_configs:
@@ -18,14 +20,14 @@ config:
         relabel_configs:
           - source_labels: [__meta_kubernetes_pod_node_name]
             target_label: __host__
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
           - source_labels: [__meta_kubernetes_namespace]
             target_label: namespace
           - source_labels: [__meta_kubernetes_pod_name]
             target_label: pod
           - source_labels: [__meta_kubernetes_pod_container_name]
             target_label: container
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            target_label: app
           - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_pod_name]
             target_label: job
             separator: /
