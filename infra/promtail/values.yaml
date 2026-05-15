@@ -5,8 +5,10 @@ config:
 
   snippets:
     # 쿠버네티스 파드 로그 수집 + 메타데이터 레이블 추가
+    # containerd 런타임의 CRI 포맷(`<timestamp> <stream> <flag> <body>`)을 파싱
+    # → body의 JSON 로그가 Loki에 그대로 들어가 LogQL의 `| json`으로 풀어 쓸 수 있음
     pipelineStages:
-      - docker: {}
+      - cri: {}
 
     # 감시할 로그 경로 (DaemonSet으로 노드 전체 커버)
     scrapeConfigs: |
