@@ -30,13 +30,33 @@ grafana:
   persistence:
     enabled: false
   additionalDataSources:
+    # Loki: 본문 JSON의 trace_id를 클릭하면 Tempo로 자동 점프하도록 derivedField 설정.
+    # pino mixin이 모든 로그에 `"trace_id":"..."`를 박아주므로 정규식으로 추출 가능.
     - name: Loki
       type: loki
+      uid: loki
       url: http://infra-loki-gateway.monitoring.svc:80
       access: proxy
       isDefault: false
+      jsonData:
+        derivedFields:
+          - name: trace_id
+            matcherRegex: '"trace_id":"([a-f0-9]+)"'
+            url: '$${__value.raw}'
+            datasourceUid: tempo
+            urlDisplayLabel: 'Tempo에서 trace 보기'
     - name: Tempo
       type: tempo
+      uid: tempo
       url: http://infra-tempo.monitoring.svc:3200
       access: proxy
       isDefault: false
+      jsonData:
+        # Tempo에서 trace 클릭 시 해당 trace_id로 Loki를 검색해 로그를 함께 보여줌
+        tracesToLogsV2:
+          datasourceUid: loki
+          spanStartTimeShift: '-5m'
+          spanEndTimeShift: '5m'
+          filterByTraceID: true
+          customQuery: true
+          query: '{namespace="shoong"} | json | trace_id="$${__trace.traceId}"'
