@@ -1,0 +1,21 @@
+# metrics-server Helm values
+#
+# kube-system 에 배포되어 K8s metrics-server APIService 를 제공한다.
+# kubectl top, HPA, VPA, Kiali sidecar 메트릭 등이 이걸로 동작.
+#
+# 차트: https://kubernetes-sigs.github.io/metrics-server
+
+# EKS의 kubelet 인증서가 self-signed라 검증 비활성화 필요
+# (EKS 환경에서 metrics-server 설치 시 사실상 필수)
+args:
+  - --kubelet-insecure-tls
+
+replicas: 1
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 200Mi
+  limits:
+    cpu: 200m
+    memory: 300Mi
