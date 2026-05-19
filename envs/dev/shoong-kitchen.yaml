@@ -2,10 +2,13 @@ image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-kitchen
   tag: "dev-8142b3e3482a023c72831851daf725cea0700e13"
 
-replicaCount: 1
+replicaCount: 2
 
 service:
   port: 3002
+
+destinationRule:
+  enabled: true
 
 env:
   OTEL_SERVICE_NAME: shoong-kitchen

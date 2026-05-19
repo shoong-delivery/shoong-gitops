@@ -6,3 +6,6 @@ replicaCount: 2
 
 service:
   port: 3003
+
+destinationRule:
+  enabled: true

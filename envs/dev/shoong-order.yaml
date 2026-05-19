@@ -2,7 +2,7 @@ image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-order
   tag: "dev-4d03efe789248e2783de1fdb4932b780876ee7b4"
 
-replicaCount: 1
+replicaCount: 2
 
 service:
   port: 3001
@@ -10,6 +10,9 @@ service:
 virtualService:
   enabled: true
   prefix: /api/orders/
+
+destinationRule:
+  enabled: true
 
 env:
   OTEL_SERVICE_NAME: shoong-order

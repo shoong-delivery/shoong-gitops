@@ -2,10 +2,13 @@ image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-delivery
   tag: "dev-931d9a8021adb020487bb10bbd4f62b4d108b443"
 
-replicaCount: 1
+replicaCount: 2
 
 service:
   port: 3003
+
+destinationRule:
+  enabled: true
 
 env:
   OTEL_SERVICE_NAME: shoong-delivery

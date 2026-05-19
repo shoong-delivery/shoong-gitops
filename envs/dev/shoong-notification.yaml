@@ -2,7 +2,7 @@ image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-notification
   tag: "dev-1fd898892961ee18f9b68923558970a7ef9629bb"
 
-replicaCount: 1
+replicaCount: 2
 
 service:
   port: 3004
@@ -11,6 +11,9 @@ virtualService:
   enabled: true
   prefix: /api/notifications/
   exactMatch: /api/notifications
+
+destinationRule:
+  enabled: true
 
 env:
   OTEL_SERVICE_NAME: shoong-notification

@@ -10,3 +10,6 @@ service:
 virtualService:
   enabled: true
   prefix: /api/orders/
+
+destinationRule:
+  enabled: true

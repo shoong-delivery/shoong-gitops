@@ -46,3 +46,21 @@ virtualService:
   enabled: false
   gateway: istio-system/shoong-gateway
   prefix: /api
+
+# Istio DestinationRule — 서킷브레이커 (connectionPool + outlierDetection)
+# enabled: true 일 때 Service 이름과 동일한 host로 정책 적용
+destinationRule:
+  enabled: false
+  connectionPool:
+    tcp:
+      maxConnections: 100
+    http:
+      http1MaxPendingRequests: 50
+      http2MaxRequests: 100
+      maxRequestsPerConnection: 10
+      maxRetries: 3
+  outlierDetection:
+    consecutive5xxErrors: 5
+    interval: 30s
+    baseEjectionTime: 30s
+    maxEjectionPercent: 50
