@@ -1,5 +1,5 @@
 clusterName: shoong-dev-cluster
-vpcId: vpc-03331ca840fb3d747
+vpcId: vpc-048cd986c2f67d79b
 
 serviceAccount:
   annotations:
