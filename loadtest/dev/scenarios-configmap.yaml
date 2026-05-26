@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k6-scenarios
+  namespace: loadtest
+data:
+  common.js: |
+    import http from "k6/http";
+    import { check } from "k6";
+
+    export const BASE_URL = __ENV.ALB_URL;
+
+    if (!BASE_URL) {
+      throw new Error(
+        "ALB_URL 환경변수가 필요합니다."
+      );
+    }
+
+    const MENU_IDS = [1, 2, 3, 4, 5];
+    const USER_NAME = "tester";
+
+    export function orderRequest() {
+      const menuId = MENU_IDS[Math.floor(Math.random() * MENU_IDS.length)];
+      const res = http.post(
+        `${BASE_URL}/api/orders/${menuId}?userName=${USER_NAME}`
+      );
+      check(res, {
+        "status is 200 or 201": (r) => r.status === 200 || r.status === 201,
+      });
+      return res;
+    }
+
+  load.js: |
+    import { orderRequest } from "./common.js";
+
+    export const options = {
+      scenarios: {
+        load: {
+          executor: "ramping-arrival-rate",
+          startRate: 0,
+          timeUnit: "1s",
+          preAllocatedVUs: 50,
+          maxVUs: 500,
+          stages: [
+            { duration: "2m", target: 100 },
+            { duration: "5m", target: 100 },
+            { duration: "2m", target: 300 },
+            { duration: "5m", target: 300 },
+            { duration: "2m", target: 0 },
+          ],
+        },
+      },
+      thresholds: {
+        http_req_duration: ["p(95)<500"],
+        http_req_failed: ["rate<0.01"],
+      },
+    };
+
+    export default function () {
+      orderRequest();
+    }

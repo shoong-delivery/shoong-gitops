@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loadtest-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/shoong-delivery/shoong-gitops
+    targetRevision: HEAD
+    path: loadtest/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: loadtest
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    managedNamespaceMetadata:
+      labels:
+        # 부하 발생기에 Envoy sidecar가 끼면 측정에 노이즈 → 비활성화
+        istio-injection: disabled
