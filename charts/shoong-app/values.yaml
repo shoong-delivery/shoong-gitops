@@ -1,5 +1,13 @@
 replicaCount: 1
 
+# HPA — 활성화 시 deployment.replicas 무시되고 HPA가 파드 수 제어
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+  # targetMemoryUtilizationPercentage: 80   # 메모리 기반 스케일링 필요 시 주석 해제
+
 image:
   repository: ""
   tag: "latest"
