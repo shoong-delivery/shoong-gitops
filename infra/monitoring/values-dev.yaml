@@ -6,6 +6,8 @@ grafana:
 
 prometheus:
   prometheusSpec:
+    # k6의 --out experimental-prometheus-rw 수신을 위해 필요
+    enableRemoteWriteReceiver: true
     resources:
       requests:
         memory: 512Mi
