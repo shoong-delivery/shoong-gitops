@@ -2,7 +2,11 @@ image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-delivery
   tag: "dev-931d9a8021adb020487bb10bbd4f62b4d108b443"
 
-replicaCount: 2
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
 
 service:
   port: 3003

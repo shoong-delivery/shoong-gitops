@@ -2,7 +2,11 @@ image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-kitchen
   tag: "dev-8142b3e3482a023c72831851daf725cea0700e13"
 
-replicaCount: 2
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
 
 service:
   port: 3002

@@ -2,7 +2,11 @@ image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-order
   tag: "dev-4d03efe789248e2783de1fdb4932b780876ee7b4"
 
-replicaCount: 2
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
 
 service:
   port: 3001

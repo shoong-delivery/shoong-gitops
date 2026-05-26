@@ -2,7 +2,11 @@ image:
   repository: 733181095558.dkr.ecr.us-east-1.amazonaws.com/shoong-notification
   tag: "dev-1fd898892961ee18f9b68923558970a7ef9629bb"
 
-replicaCount: 2
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
 
 service:
   port: 3004
