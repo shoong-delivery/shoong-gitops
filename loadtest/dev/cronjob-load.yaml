@@ -28,7 +28,7 @@ spec:
                 - /scripts/load.js
               env:
                 - name: ALB_URL
-                  value: "http://shoong-dev-alb-2102400300.us-east-1.elb.amazonaws.com"
+                  value: "http://istio-ingressgateway.istio-system.svc.cluster.local"
                 - name: K6_PROMETHEUS_RW_SERVER_URL
                   value: "http://infra-monitoring-kube-prom-prometheus.monitoring.svc:9090/api/v1/write"
                 - name: K6_PROMETHEUS_RW_TREND_STATS
