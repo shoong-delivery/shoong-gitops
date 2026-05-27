@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: k6-spike-test
+  namespace: loadtest
+spec:
+  schedule: "0 0 31 2 *"
+  suspend: true
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: k6
+              image: grafana/k6:0.55.0
+              args:
+                - run
+                - --out
+                - experimental-prometheus-rw
+                - /scripts/spike.js
+              env:
+                - name: ALB_URL
+                  value: "http://istio-ingressgateway.istio-system.svc.cluster.local"
+                - name: K6_PROMETHEUS_RW_SERVER_URL
+                  value: "http://infra-monitoring-kube-prom-prometheus.monitoring.svc:9090/api/v1/write"
+                - name: K6_PROMETHEUS_RW_TREND_STATS
+                  value: "p(50),p(95),p(99)"
+              resources:
+                requests:
+                  cpu: 500m
+                  memory: 256Mi
+                limits:
+                  cpu: 1000m
+                  memory: 512Mi
+              volumeMounts:
+                - name: scenarios
+                  mountPath: /scripts
+          volumes:
+            - name: scenarios
+              configMap:
+                name: k6-scenarios
