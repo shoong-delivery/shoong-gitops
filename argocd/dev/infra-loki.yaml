@@ -16,7 +16,7 @@ spec:
           - $values/infra/loki/values.yaml
           - $values/infra/loki/values-dev.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
-      targetRevision: HEAD
+      targetRevision: troubleshoot/argocd-outofsync
       ref: values
   destination:
     server: https://kubernetes.default.svc

@@ -16,7 +16,7 @@ spec:
         valueFiles:
           - $values/infra/istio-gateway/values.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
-      targetRevision: HEAD
+      targetRevision: troubleshoot/argocd-outofsync
       ref: values
   destination:
     server: https://kubernetes.default.svc

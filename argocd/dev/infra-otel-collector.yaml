@@ -16,7 +16,7 @@ spec:
           - $values/infra/otel-collector/values.yaml
           - $values/infra/otel-collector/values-dev.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
-      targetRevision: HEAD
+      targetRevision: troubleshoot/argocd-outofsync
       ref: values
   destination:
     server: https://kubernetes.default.svc

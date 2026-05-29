@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/shoong-delivery/shoong-gitops
-    targetRevision: HEAD
+    targetRevision: troubleshoot/argocd-outofsync
     path: infra/storage
   destination:
     server: https://kubernetes.default.svc

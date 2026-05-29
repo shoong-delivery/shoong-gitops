@@ -7,13 +7,13 @@ spec:
   project: default
   sources:
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
-      targetRevision: HEAD
+      targetRevision: troubleshoot/argocd-outofsync
       path: charts/shoong-app
       helm:
         valueFiles:
           - $values/envs/dev/shoong-delivery.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
-      targetRevision: HEAD
+      targetRevision: troubleshoot/argocd-outofsync
       ref: values
   destination:
     server: https://kubernetes.default.svc

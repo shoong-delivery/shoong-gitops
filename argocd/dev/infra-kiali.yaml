@@ -15,7 +15,7 @@ spec:
         valueFiles:
           - $values/infra/kiali/values-dev.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
-      targetRevision: HEAD
+      targetRevision: troubleshoot/argocd-outofsync
       ref: values
   destination:
     server: https://kubernetes.default.svc
