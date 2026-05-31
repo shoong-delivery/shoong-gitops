@@ -23,7 +23,6 @@ spec:
   ignoreDifferences:
     - group: admissionregistration.k8s.io
       kind: ValidatingWebhookConfiguration
-      name: istio-validator-istio-system
       jqPathExpressions:
         - .webhooks[]?.failurePolicy
   syncPolicy:
