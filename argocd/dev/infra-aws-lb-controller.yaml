@@ -16,7 +16,7 @@ spec:
           - $values/infra/aws-lb-controller/values.yaml
           - $values/infra/aws-lb-controller/values-dev.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
-      targetRevision: HEAD
+      targetRevision: troubleshoot/tempo-oomkilled # [재현용] 스크립트가 브랜치에 push한 vpcId를 읽기 위함 (원복 시 HEAD)
       ref: values
   destination:
     server: https://kubernetes.default.svc
