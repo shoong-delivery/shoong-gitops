@@ -16,7 +16,7 @@ spec:
           - $values/infra/tempo/values.yaml
           - $values/infra/tempo/values-dev.yaml
     - repoURL: https://github.com/shoong-delivery/shoong-gitops
-      targetRevision: HEAD
+      targetRevision: troubleshoot/tempo-oomkilled # [재현용] 512Mi values를 재현 브랜치에서 읽기 위함 (원복 시 HEAD)
       ref: values
   destination:
     server: https://kubernetes.default.svc

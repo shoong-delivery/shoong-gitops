@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/shoong-delivery/shoong-gitops
-    targetRevision: HEAD
+    targetRevision: troubleshoot/tempo-oomkilled # [재현용] 자식 앱 정의를 재현 브랜치에서 읽기 위함 (원복 시 HEAD)
     path: argocd/dev
   destination:
     server: https://kubernetes.default.svc
